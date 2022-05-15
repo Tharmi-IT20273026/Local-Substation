@@ -1,0 +1,177 @@
+<!DOCTYPE>
+<html>
+<head>
+
+    <title>Local SUbstation</title>
+    <script src="assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+    <script src="includes/javascripts/jquery/jquery-ui.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="Energy.css">
+    <script>
+
+        $(document).ready(function () {
+
+            let i = 1;
+
+            $("#btnAdd").click(function () {
+
+                let newHtml = GetHtml().replace("$[Id]",i++).replace("$[substation_code]", $("#sub_code").val()).
+				                    replace("$[active]", $("#act_status").val()).
+				                    replace("$[act_from]", $("#act_f").val()).replace("$[act_To]", $("#act_t").val()).
+				                    replace("$[Edit]", "Edit").replace("$[Delete]", "Delete");
+
+                $("#table_td").append(newHtml);
+
+            });
+
+            $("#btnUpdate").click(function () {
+
+                let newHtml = GetHtml().replace("$[Id]", $("#numId").val()).
+				                         replace("$[substation_code]", $("#sub_code").val()).
+				                         replace("$[active]", $("#act_status").val()).
+				                         replace("$[act_From]", $("#act_f").val()).
+				                         replace("$[act_To]", $("#act_t").val()).
+				                         replace("$[Edit]", "Edit").
+										 replace("$[Delete]", "Delete");
+
+                $("#table_td").append(newHtml);
+
+                $("#btnAdd").show();
+
+                $("#btnUpdate").hide();
+
+                $("#numId").val('');
+
+                $("#sub_code").val('');
+
+                $("#act_status").val('');
+                $("#act_f").val('');
+                $("#act_t").val('');
+
+
+
+            });
+
+            $(document).on("click", "#A_Edit", function () {
+
+                $("#btnAdd").hide();
+
+                $("#btnUpdate").show();
+
+                $("#numId").show();
+
+                $("#numId").val($(this).parent().parent().find('.Id').html());
+
+                $("#sub_code").val($(this).parent().parent().find('.substation_code').html());
+
+                $("#act_status").val($(this).parent().parent().find('.active').html());
+                $("#act_f").val($(this).parent().parent().find('.act_From').html());
+                $("#act_t").val($(this).parent().parent().find('.act_To').html());
+
+                $(this).parents("tr").remove();
+
+                $("#btnUpdate").focus();
+
+
+
+            });
+
+
+            $(document).on("click", "#A_delete", function () {
+
+                $(this).parents("tr").remove();
+
+            });
+
+        });
+
+
+        function GetHtml() {
+
+            return "<tr><td class='Id'>$[Id]</td>"
+
+                + "<td class='substation_code'>$[substation_code]</td>"
+
+                + "<td class='active'>$[active]</td>"
+                + "<td class='act_From'>$[act_From]</td>"
+                + "<td class='act_To'>$[act_To]</td>"
+
+                + "<td class='action'><a href='#' id='A_Edit'> $[Edit] </a> <a href='#' id='A_delete'>$[Delete]</a></td></tr>";
+
+        }
+
+
+    </script>
+
+</head>
+
+<body>
+
+<form id="form1">
+    <center>
+    <h1>Local SubStation</h1>
+    </center>
+    <table class='table table-bordered' id='UserInfo'>
+
+        <tr>
+            <th>ID</th>
+            <th>Substation Code</th>
+            <th>Active status</th>
+            <th>Active From</th>
+            <th>Active To</th>
+        </tr>
+
+        <tbody id="table_td"></tbody>
+
+    </table>
+
+    <h3>
+        Add New
+    </h3>
+
+    <table class='table table-bordered' id='Add'>
+        <tr>
+            <th>ID</th>
+            <th>Substation Code</th>
+            <th>Active status</th>
+            <th>Active From</th>
+            <th>Active To</th
+        </tr>
+
+        <tr>
+            <td>
+                <input type="number" id="numId" style="display: none" readonly name="ID" value="" />
+				 
+            </td>
+            <td>
+                <input type="text" id="sub_code" name="substation_code" value="" />
+            </td>
+			 <td>
+                <input type="text" id="act_status" name="active" value="" />
+            </td>
+			<td>
+                <input type="text" id="act" name="act_f" value="act_From" />
+            </td>
+			<td>
+                <input type="text" id="act" name="act_t" value="act_To" />
+            </td>
+
+        </tr>
+
+    </table>
+
+    <input type="button" id="btnAdd" style="display: block" value="Add" />
+
+    <input type="button" id="btnUpdate" style="display: none" value="Update" />
+
+    <br />
+
+    <div id="output"></div>
+
+</form>
+
+</body>
+
+</html>

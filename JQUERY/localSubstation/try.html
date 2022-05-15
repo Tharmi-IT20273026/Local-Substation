@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TRY</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	 <link href=
+'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/ui-lightness/jquery-ui.css'
+          rel='stylesheet'>
+      
+    <script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" >
+    </script>
+      
+    <script src=
+"https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" >
+    </script>
+</head>
+</head>
+
+<body>
+<div class="container">
+    <h1>lOCAL SUBSTATION INFO</h1>
+    <form id="sourcelocalSub_form">
+        <div class="form-group">
+            <input type="text" id="sub_code" name="" required="">
+            <span class="error_form" id="localSub_error_message"></span>
+            <label>Sub Station code</label>
+        </div>
+		 <div>
+            <select style="color: blue"  id="act" required="" >
+			<span class="error_form" id="act_error_message"></span>
+                <option value="1"> Active </option>
+                <option value="2" style="color: forestgreen"> True </option>
+                <option value="3" style="color: maroon"> False </option>
+            </select>
+        </div>
+		 <div>
+            <input type="text" id="date_f"  required="" />
+			 <span class="error_form" id="actFrom_error_message"></span>
+               <label class="form-label"  > Date of Active From </label>
+		</div>
+        <div>
+          <input type="text" id="date_t"  required=""/>
+		     <span class="error_form" id="actTo_error_message"></span>
+                <label class="form-label"  > Date of Active To </label>
+        </div>
+			  
+			 
+        <input type="submit" value="Insert" name="">
+    </form>
+</div>
+
+<script type="text/javascript">
+
+$(function() {
+
+        $("#localSub_error_message").hide();
+        $("#act_error_message").hide();
+        $("#actFrom_error_message").hide();
+        $("#actTo_error_message").hide();
+
+        var error_code = false;
+        var error_act = false;
+        var error_actFrom = false;
+        var error_actTo = false;
+//========== CREATING FUNCTION USING JQUERY =========================		
+		 $("#sub_code").focusout(function(){
+            check_subcode();
+        });
+        $("#act").focusout(function() {
+            check_act();
+        });
+        $("#date_f").focusout(function() {
+            check_actFrom();
+        });
+        $("#date_t").focusout(function() {
+            check_actTo();
+        });
+		
+		//============= validate substation code =================
+		
+         function check_subcode() {
+            var pattern = /sco[1-9]/;
+            var code = $("#sub_code").val();
+			var code_length = $("#sub_code").val().length;
+            if (pattern.test(code) &&  code_length > 7){
+                $("#localSub_error_message").hide();
+                $("#sub_code").css("border-bottom","2px solid #34F458");
+            } else {
+                $("#localSub_error_message").html(" start with sco and max length is 7");
+                $("#localSub_error_message").show();
+                $("#sub_code").css("border-bottom","2px solid #F90A0A");
+                error_code = true;
+            }
+        }
+//=============== validate Active status ======================
+
+           function check_act() {
+            
+            var type = $("#act").val();
+            if ( type !== '') {
+                $("#act_error_message").hide();
+                $("#act").css("border-bottom","2px solid #34F458");
+            } else {
+                $("#act_error_message").html("should enter active status");
+                $("#act_error_message").show();
+                $("#act").css("border-bottom","2px solid #F90A0A");
+                error_act = true;
+            }
+        }		
+//============== vallidate  active from ======================================
+        function check_actFrom() {
+            
+            var type = $("#date_f").val();
+            if ( type !== '') {
+                $("#actFrom_error_message").hide();
+                $("#date_f").css("border-bottom","2px solid #34F458");
+            } else {
+                $("#actFrom_error_message").html("should enter date");
+                $("#actFrom_error_message").show();
+                $("#date_f").css("border-bottom","2px solid #F90A0A");
+                error_actFrom = true;
+            }
+        }
+//============== validate active To ================		
+		
+	     function check_actTo() {
+            
+            var type = $("#date_t").val();
+            if ( type !== '') {
+                $("#actTo_error_message").hide();
+                $("#date_t").css("border-bottom","2px solid #34F458");
+            } else {
+                $("#actTo_error_message").html("should enter date");
+                $("#actTo_error_message").show();
+                $("#date_t").css("border-bottom","2px solid #F90A0A");
+                error_actTo = true;
+            }
+        }
+//=====================date picker =====================
+		
+		 $(document).ready(function() {
+          
+            $(function() {
+                $( "#date_f" ).datepicker();
+            });
+			
+			$(function() {
+                $( "#date_t" ).datepicker();
+            });
+        })
+// =====================validate submit button ==================
+
+         $("#sourcelocalSub_form").submit(function() {
+            error_code = false;
+            error_act = false;
+            error_actFrom = false;
+            error_actTo = false;
+
+            error_code();
+            error_act();
+            error_actFrom();
+            error_actTo();
+
+            if (error_code === false && error_act === false && error_actFrom === false && error_actTo === false ) {
+                alert("Source Successfull");
+                return true;
+            } else {
+                alert("Please Fill the form Correctly");
+                return false;
+            }
+
+
+        });
+	});	
+
+</script>
+
+
+</body>
